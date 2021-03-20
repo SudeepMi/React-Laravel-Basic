@@ -1,62 +1,109 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+### React & Laravel Application
+A fresh Laravel application comes with vue.js also in the Laravel community, vue.js is preferred to use as a JavaScript framework. Looking for using React instead? Yes, there is a convenient way of using React in the Laravel application.
+We will be looking at how to do it in minutes of time.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+##### This blog assumes the following :
+Basic knowledge of PHP and Laravel
+Basic knowledge of JavaScript and React
+PHP, Composer, Laravel installer installed on your computer
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##### Let's take a look at some step that we will be following: 
+- Creating fresh Laravel application
+- Creating wildcard route
+- Installing react in the Laravel application
+- Preparing a component to render.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+So, let get started from the first step.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### A fresh Laravel application
+At first, we need to create a fresh application. we will do it by using the Laravel installer.
+```
+$ laravel new reactapp
+```
+Once, the given command executes successfully, it's time to change the default route for rendering the single view file for all our application routes.
+### Wildcard route
+For creating a wildcard route in Laravel application. open routes/web.php and paste the given code. Basically, we will render a single blade file for all routes in the application.
+```
+// routes/web.php
 
-## Laravel Sponsors
+    Route::view('/{path?}', 'app');
+```
+The given code will render app.blade.php for all requests in the application. Doing that will let us inject React components into the blade file. Now, create app.blade.php in paste the following in the blade file.
+```
+// resources/views/app.blade.php
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    <!DOCTYPE html>
+    <html lang="{{ app()->getLocale() }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>React App</title>
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app"></div>
 
-### Premium Partners
+        <script src="{{ asset('js/app.js') }}"></script>
+    </body>
+    </html>
+```
+This file contains a basic blade file boilerplate. The certain things which should be considered are : 
+CSRF token
+A single div with an id attribute
+asset('js/app.js') within a script tag. 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+### Installing React
+Now, it's time to install react in our application. To do so there is a preset artisan command. Basically, we will be swapping vue.js with React.js. the preset command allows us to specify the javascript framework of our choice. The command is :
+```
+$ cd reactapp
+$ php artisan preset react
+```
+In Laravel 8 - - There is no preset command available. so we need to install laravel/ui package at first and the use ui command for scaffolding react. for doing it the command is :
+$ composer require laravel/ui
+Once the package is installed we are ready to use ui command for installing react in our application.
+$ php artisan ui react
+Installing react in the Laravel application (ver 8.x)
 
-## Contributing
+This will create a basic react component Example.js inside resources/js/components also resource/js/app,js is update to use React in our application. 
+React component file
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Next, we will need to install our dependencies and watch the change in the js file for building the react components. for that, run the following command in the new terminal inside the same project folder.
+$ npm install && npm run watch
+Compiling JS files
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### React Component
+Once we are all done with the installation part, we will need to prepare our react component for rendering in app.blade.php. For that paste the following code inside resources/js/components/Example.js.
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+function Example() {
+return (
+<div className="container">
+  <div className="row justify-content-center">
+     <div className="col-md-8">
+        <div className="card">
+          <div className="card-header">ReactJS Example Component</div>
+          <div className="card-body">I'm an example componen in React JS!</div>
+      </div>
+     </div>
+  </div>
+</div>
+);
+}
+export default Example;
+if (document.getElementById('app')) {
+ReactDOM.render(<Example />, document.getElementById('app'));
+}
+```
+This file basically renders a functional component in the blade file using ReactDOM. once you do this, you are now ready to serve the Laravel application. after serving, you can react component on your browser.
+Rendering React componentYou can manually create a react component file and render them. you just have to edit the resources/js/app.js. initially, app.js looks something like this
+resources/js/app.jsOn line 15, you should replace Example with your own component name.
